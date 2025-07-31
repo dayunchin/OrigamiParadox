@@ -362,8 +362,8 @@ signInAnonymously(auth)
         
         async function initializeFirebase() {
             try {
-                const firebaseApp = initializeApp(JSON.parse(window.firebaseConfigJson));
-                auth = getAuth(firebaseApp); db = getFirestore(firebaseApp); setLogLevel('debug');
+                //const firebaseApp = initializeApp(JSON.parse(window.firebaseConfigJson));
+                //auth = getAuth(firebaseApp); db = getFirestore(firebaseApp); setLogLevel('debug');
                 onAuthStateChanged(auth, user => {
                     if (user) {
                         currentUserId = user.uid;
