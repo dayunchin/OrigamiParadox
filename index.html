@@ -238,7 +238,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-//const db = getFirestore(app);
+const db = getFirestore(app);
 
 // Sign in anonymously
 signInAnonymously(auth)
@@ -250,7 +250,7 @@ signInAnonymously(auth)
     console.error("Auth error:", error);
   });
 
-        let db, auth, currentUserId = null, currentPlayerName = "Player";
+        let auth, currentUserId = null, currentPlayerName = "Player";
         let leaderboardUnsubscribe = null;
 
         const gameLevelsConfig = [
