@@ -199,7 +199,7 @@
         </div>
         <div id="messageArea">Begin when ready!</div>
         <div class="game-actions-bar">
-            <button class="secondary-action-button" onclick="toggleLeaderboardModal(true)">Leaderboard</button>
+            <button class="secondary-action-button" onclick="toggleLeaderboardModal(true)" disabled>Leaderboard</button>
             <div class="action-buttons-group">
                 <button id="nextLevelButton" class="action-button hidden" onclick="startNextLevel()">Next Level!</button>
                 <button id="retryLevelButton" class="action-button hidden" onclick="retryCurrentLevel()">Retry Level</button>
@@ -540,6 +540,7 @@ const firebaseApp = initializeApp(firebaseConfig);
     </script>
 </body>
 </html>
+
 
 
 
