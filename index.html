@@ -25,7 +25,6 @@
             margin: 0; padding: 15px; color: #333; display: flex; flex-direction: column;
             align-items: center; justify-content: flex-start; min-height: 100vh;
             text-align: center; box-sizing: border-box;
-            /* UPDATED: New Background Image URL */
             background-image: linear-gradient(rgba(240, 242, 245, 0.85), rgba(240, 242, 245, 0.85)), url('https://github.com/dayunchin/OrigamiParadox/main/Origami%20Paradox%20Background.jpg');
             background-size: cover; background-position: center; background-attachment: fixed;
         }
@@ -39,7 +38,7 @@
             box-sizing: border-box; margin-top: 15px; border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* UPDATED: 3D Cartoon Colorful Title Style */
+        /* 3D Cartoon Colorful Title Style */
         .game-title { 
             font-family: 'Bangers', cursive; 
             font-size: 3.5em;
@@ -72,9 +71,8 @@
             margin-top: 0;
             margin-bottom: 20px;
         }
-        /* Title inside modal */
         .modal-content .game-title {
-            font-size: 3em; /* Slightly smaller for modal */
+            font-size: 3em;
             margin-bottom: 20px;
         }
         .modal-content input[type="text"] {
@@ -170,7 +168,6 @@
 
     <div id="nameModal" class="modal active">
         <div class="modal-content">
-            <!-- UPDATED: Title added to modal -->
             <h1 class="game-title">Plastigami Paradox</h1>
             <h2>Welcome! Enter Your Name</h2>
             <input type="text" id="playerNameInput" placeholder="Paradox Master" maxlength="20">
@@ -192,7 +189,6 @@
     </div>
 
     <div class="game-container" id="gameArea" style="display:none;">
-        <!-- UPDATED: Title is now centered -->
         <h1 id="gameTitle" class="game-title">Plastigami Paradox</h1>
         <p class="intro-text">Keep it up, <span id="playerNameDisplay" style="font-weight:bold;">Player</span>! The clock is ticking...</p>
 
@@ -222,36 +218,12 @@
     </div>
 
     <script type="module">
-    
-import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        // FIX: Restored all necessary Firebase imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAJ-OjfzP7F3-T3dC_Yd91JBSyQg-EfFz0",
-  authDomain: "plastigami-paradox.firebaseapp.com",
-  projectId: "plastigami-paradox",
-  storageBucket: "plastigami-paradox.firebasestorage.app",
-  messagingSenderId: "816485256918",
-  appId: "1:816485256918:web:ac316f26b3e03e28714377"
-};
-
-//  Avoid duplicate initialization
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-
-//  Only declare once
-const db = getFirestore(app);
-const auth = getAuth(app);
-
-signInAnonymously(auth)
-  .then(() => {
-    console.log("Signed in anonymously");
-  })
-  .catch((error) => {
-    console.error("Auth error:", error);
-  });
-
-        let currentUserId = null, currentPlayerName = "Player";
+        let db, auth, currentUserId = null, currentPlayerName = "Player";
         let leaderboardUnsubscribe = null;
 
         const gameLevelsConfig = [
@@ -265,9 +237,9 @@ signInAnonymously(auth)
                     { id: 'l1_d4', src: 'https://github.com/dayunchin/OrigamiParadox/main/digital_0104.png', type: 'digital' },
                     { id: 'l1_r4', src: 'https://github.com/dayunchin/OrigamiParadox/main/real_0104.png', type: 'real' },
                     { id: 'l1_d5', src: 'https://github.com/dayunchin/OrigamiParadox/main/digital_0105.png', type: 'digital' },
- 	{ id: 'l1_d6', src: 'https://github.com/dayunchin/OrigamiParadox/main/digital_0106.png', type: 'digital' },
+ 	                { id: 'l1_d6', src: 'https://github.com/dayunchin/OrigamiParadox/main/digital_0106.png', type: 'digital' },
                     { id: 'l1_r5', src: 'https://github.com/dayunchin/OrigamiParadox/main/real_0105.png', type: 'real' },
-	  { id: 'l1_r6', src: 'https://github.com/dayunchin/OrigamiParadox/main/real_0106.png', type: 'real' }
+	                { id: 'l1_r6', src: 'https://github.com/dayunchin/OrigamiParadox/main/real_0106.png', type: 'real' }
                 ]
             },
             { 
@@ -362,8 +334,10 @@ signInAnonymously(auth)
         
         async function initializeFirebase() {
             try {
-                //const firebaseApp = initializeApp(JSON.parse(window.firebaseConfigJson));
-                //auth = getAuth(firebaseApp); db = getFirestore(firebaseApp); setLogLevel('debug');
+                const firebaseApp = initializeApp(JSON.parse(window.firebaseConfigJson));
+                auth = getAuth(firebaseApp); 
+                db = getFirestore(firebaseApp); 
+                setLogLevel('debug');
                 onAuthStateChanged(auth, user => {
                     if (user) {
                         currentUserId = user.uid;
