@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plastigami Paradox</title>
-    <script type="module">
+
+/*    <script type="module">
         // --- Firebase Configuration (DO NOT EDIT THESE LINES) ---
         const firebaseConfigJson = typeof __firebase_config !== 'undefined' ? __firebase_config : '{
   apiKey: "AIzaSyAJ-OjfzP7F3-T3dC_Yd91JBSyQg-EfFz0",
@@ -19,7 +20,8 @@
         window.firebaseConfigJson = firebaseConfigJson;
         window.initialAuthToken = initialAuthToken;
         window.appId = appId;
-    </script>
+    </script>*/
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -230,6 +232,19 @@
         import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         let db, auth, currentUserId = null, currentPlayerName = "Player";
+
+// ADD THIS CODE
+const firebaseConfig = {
+  apiKey: "AIzaSyAJ-OjfzP7F3-T3dC_Yd91JBSyQg-EfFz0",
+  authDomain: "plastigami-paradox.firebaseapp.com",
+  projectId: "plastigami-paradox",
+  storageBucket: "plastigami-paradox.firebasestorage.app",
+  messagingSenderId: "816485256918",
+  appId: "1:816485256918:web:ac316f26b3e03e28714377"
+};
+const appId = 'default-plastigami-paradox'; // Use this to keep your database path consistent
+// END OF CODE TO ADD
+
         let leaderboardUnsubscribe = null;
 
         const gameLevelsConfig = [
@@ -340,7 +355,8 @@
         
         async function initializeFirebase() {
             try {
-                const firebaseApp = initializeApp(JSON.parse(window.firebaseConfigJson));
+              //  const firebaseApp = initializeApp(JSON.parse(window.firebaseConfigJson));
+const firebaseApp = initializeApp(firebaseConfig);	
                 auth = getAuth(firebaseApp); 
                 db = getFirestore(firebaseApp); 
                 setLogLevel('debug');
