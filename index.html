@@ -361,22 +361,24 @@ const firebaseApp = initializeApp(firebaseConfig);
             }
         }
         
-        async function submitFinalScore() {
-            if (!currentUserId || !db || (overallLevelsCompleted === 0 && overallTotalScore === 0)) return;
-            const leaderboardCollectionPath = `/artifacts/${window.appId}/public/data/plastigami_scores`;
-            try {
-                await addDoc(collection(db, leaderboardCollectionPath), {
-                    userId: currentUserId,
-                    name: currentPlayerName,
-                    score: overallTotalScore,
-                    levels: overallLevelsCompleted,
-                    createdAt: serverTimestamp() 
-                });
-                console.log("Final score submitted successfully.");
-            } catch (error) {
-                console.error("Error submitting final score:", error);
-            }
-        }
+       async function submitFinalScore() {
+    if (!currentUserId || !db || (overallLevelsCompleted === 0 && overallTotalScore === 0)) return;
+
+    const leaderboardCollectionPath = "plastigami_scores";  // ✅ simplified Firestore collection path
+
+    try {
+        await addDoc(collection(db, leaderboardCollectionPath), {
+            userId: currentUserId,
+            name: currentPlayerName,
+            score: overallTotalScore,
+            levels: overallLevelsCompleted,
+            createdAt: serverTimestamp() 
+        });
+        console.log("Final score submitted successfully.");
+    } catch (error) {
+        console.error("Error submitting final score:", error);
+    }
+}
         
         function listenForScores() {
             if (!db) { DOMElements.leaderboardList.innerHTML = '<li>Leaderboard unavailable.</li>'; return; }
@@ -538,6 +540,7 @@ const firebaseApp = initializeApp(firebaseConfig);
     </script>
 </body>
 </html>
+
 
 
 
